@@ -8,7 +8,8 @@ import { Socket, Server } from "socket.io";
 import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
-import { error, success, warning } from "./constants/chalk.js";
+import { error, success, warning } from "./src/constants/chalk.js";
+import { getCurrentRunningEnvironment } from "./src/utils/basic.js";
 
 dotenv.config({
   path: "./configs/environments.env",
@@ -41,14 +42,24 @@ const appName = process.env.APP_NAME;
 
 const server = http.createServer(app);
 
-server.listen(PORT, (err) => {
-  if (err) {
-    console.log(`Error while starting ${appName} server: `, err);
-  } else {
-    console.log(
-      success(
-        `${appName} server is listening on PORT: ${PORT} - Server ID: ${process.pid}`
-      )
-    );
+const bootstrap = () => {
+  try {
+    server.listen(PORT, (err) => {
+      if (err) {
+        console.log(`Error while starting ${appName} server: `, err);
+      } else {
+        console.log(
+          success(
+            `${appName} server is listening on PORT: ${PORT} - Server ID: ${
+              process.pid
+            } - ${getCurrentRunningEnvironment()}`
+          )
+        );
+      }
+    });
+  } catch (error) {
+    console.log(error(error));
   }
-});
+};
+
+bootstrap();
