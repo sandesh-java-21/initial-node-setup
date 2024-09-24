@@ -8,6 +8,7 @@ import { Socket, Server } from "socket.io";
 import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
+import { error, success, warning } from "./constants/chalk.js";
 
 dotenv.config({
   path: "./configs/environments.env",
@@ -45,7 +46,9 @@ server.listen(PORT, (err) => {
     console.log(`Error while starting ${appName} server: `, err);
   } else {
     console.log(
-      `${appName} server is listening on PORT: ${PORT} - Server ID: ${process.pid}`
+      success(
+        `${appName} server is listening on PORT: ${PORT} - Server ID: ${process.pid}`
+      )
     );
   }
 });
