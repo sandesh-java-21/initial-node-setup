@@ -10,9 +10,13 @@ import cors from "cors";
 import morgan from "morgan";
 import { error, success, warning } from "./src/constants/chalk.js";
 import { getCurrentRunningEnvironment } from "./src/utils/basic.js";
+import {
+  errorConverter,
+  errorHandler,
+} from "./src/middlewares/errorHandler.js";
 
 dotenv.config({
-  path: "./configs/environments.env",
+  path: "./.env",
 });
 
 const app = express();
@@ -39,6 +43,9 @@ app.use(morgan("dev"));
 
 const PORT = process.env.PORT || 8081;
 const appName = process.env.APP_NAME;
+
+app.use(errorConverter);
+app.use(errorHandler);
 
 const server = http.createServer(app);
 

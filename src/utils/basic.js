@@ -40,3 +40,7 @@ export const validateRequiredFields = (body, requiredFields) => {
     }
   });
 };
+
+export const generateRandomHexCode = () => {
+  return crypto.randomBytes(8).toString("hex").toUpperCase();
+};
