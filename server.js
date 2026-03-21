@@ -14,6 +14,7 @@ import {
   errorConverter,
   errorHandler,
 } from "./src/middlewares/errorHandler.js";
+import SuccessResponse from "./src/utils/classes/successResponse.js";
 
 dotenv.config({
   path: "./.env",
@@ -24,7 +25,7 @@ const app = express();
 app.use(
   cors({
     origin: "*",
-  })
+  }),
 );
 
 app.set("trust proxy", true);
@@ -32,11 +33,11 @@ app.set("trust proxy", true);
 app.use(
   express.json({
     limit: "50mb",
-  })
+  }),
 );
 
 app.use(
-  express.urlencoded({ extended: false, limit: "50mb", parameterLimit: 50000 })
+  express.urlencoded({ extended: false, limit: "50mb", parameterLimit: 50000 }),
 );
 
 app.use(morgan("dev"));
@@ -46,6 +47,15 @@ const appName = process.env.APP_NAME;
 
 app.use(errorConverter);
 app.use(errorHandler);
+
+app.get("/health", (req, res) => {
+  return res.status(200).json(
+    SuccessResponse.operational({
+      name: "Chari Babi",
+      wish: "Happy Propose Day and Happy Marriage Anniversary My Love!",
+    }),
+  );
+});
 
 const server = http.createServer(app);
 
@@ -59,8 +69,8 @@ const bootstrap = () => {
           success(
             `${appName} server is listening on PORT: ${PORT} - Server ID: ${
               process.pid
-            } - ${getCurrentRunningEnvironment()}`
-          )
+            } - ${getCurrentRunningEnvironment()}`,
+          ),
         );
       }
     });
