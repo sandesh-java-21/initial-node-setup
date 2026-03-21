@@ -57,6 +57,16 @@ app.get("/health", (req, res) => {
   );
 });
 
+app.get("/lovely-neelam", (req, res) => {
+  return res.status(200).json(
+    SuccessResponse.operational({
+      name: "Lovely Neelam",
+      title: "Happy Propose Day & 9th Marriage Anniversary 💍❤️",
+      celebration: "9 Years of Togetherness ❤️",
+    }),
+  );
+});
+
 const server = http.createServer(app);
 
 const bootstrap = () => {
