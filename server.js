@@ -15,9 +15,10 @@ import {
   errorHandler,
 } from "./src/middlewares/errorHandler.js";
 import SuccessResponse from "./src/utils/classes/successResponse.js";
+import { connectDB } from "./src/configs/dbConnection.js";
 
 dotenv.config({
-  path: "./.env",
+  path: `./.env.${process.env.NODE_ENV}`,
 });
 
 const app = express();
@@ -82,6 +83,8 @@ const bootstrap = () => {
             } - ${getCurrentRunningEnvironment()}`,
           ),
         );
+        // connect database after server starts successfully
+        connectDB();
       }
     });
   } catch (error) {

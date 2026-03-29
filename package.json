@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "nodemon server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js "
   },
   "author": "Sandesh Batra",
   "license": "ISC",
