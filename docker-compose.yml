@@ -1,45 +1,46 @@
 version: "3.9"
+
 services:
-    mongo:
-        image: mongo:7
-        container_name: babis-mongo
-        restart: always
-        ports:
-            -"27017:27017"
-        volumes:
-           - mongo_data:/data/db
-        profiles:
-        - dev
-        - prod
-    app-dev:
-        build: .
-        contanier_name: babis-app-dev
-        ports:
-            - "8081:8081"
-        depends_on:
-            - mongo
-        env_file:
-            - .env.development
-        volumes:
-            - .:/app
-            - /app/node_modules
-        command: npm run server
-        restart: always
-        profiles:
-            - dev
-    app-prod:
-        build: .
-        contanier_name: babis-app-prod
+  mongo:
+    image: mongo:7
+    container_name: babis-mongo
+    restart: always
     ports:
-        - "8081:8081"
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    profiles:
+      - dev
+      - prod
+
+  app-dev:
+    build: .
+    container_name: babis-app-dev
+    ports:
+      - "8081:8081"
     depends_on:
-        - mongo
+      - mongo
     env_file:
-        - .env.production
+      - .env.development
+    volumes:
+      - .:/app
+      - /app/node_modules
     command: npm run server
     restart: always
     profiles:
-        - prod
+      - dev
+  app-prod:
+    build: .
+    container_name: babis-app-prod
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+    env_file:
+      - .env.production
+    command: npm run server
+    restart: always
+    profiles:
+      - prod
 volumes:
-    mongo_data:
-
+  mongo_data:
